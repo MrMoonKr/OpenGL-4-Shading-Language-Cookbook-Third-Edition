@@ -1,0 +1,72 @@
+{
+    "version": 10,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 30,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "Visual-Studio-2022-Debug-make",
+            "displayName": "Visual Studio 2022 64-bit Debug Make",
+            "description": "Configure for building with Visual Studio 64-bit using cl.exe",
+            "generator": "Visual Studio 17 2022",
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "cl.exe",
+                "CMAKE_CXX_COMPILER": "cl.exe",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "YES",
+                "CMAKE_TOOLCHAIN_FILE": "C:/vcpkg/scripts/buildsystems/vcpkg.cmake"
+            }
+        },
+        {
+            "name": "Visual-Studio-2022-release-make",
+            "displayName": "Visual Studio 2022 64-bit Release Make",
+            "description": "Configure for building with Visual Studio 64-bit using cl.exe",
+            "generator": "Visual Studio 17 2022",
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "cl.exe",
+                "CMAKE_CXX_COMPILER": "cl.exe",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "YES",
+                "CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/bin/msvc",
+                "CMAKE_TOOLCHAIN_FILE": "C:/vcpkg/scripts/buildsystems/vcpkg.cmake"
+            },
+            "hidden": true
+        },
+        {
+            "name": "msys2-mingw64-debug-make",
+            "displayName": "MSYS2 MinGW 64-bit Debug Make",
+            "description": "Configure for building with MSYS2 MinGW 64-bit using Make in Debug mode",
+            "generator": "MinGW Makefiles",
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_C_COMPILER": "C:/msys64/ucrt64/bin/gcc.exe",
+                "CMAKE_CXX_COMPILER": "C:/msys64/ucrt64/bin/g++.exe",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "YES",
+                "CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/binary/mingw/Debug",
+                "CMAKE_TOOLCHAIN_FILE": "C:/vcpkg/scripts/buildsystems/vcpkg.cmake",
+                "VCPKG_TARGET_TRIPLET": "x64-mingw-dynamic"
+            },
+            "hidden": false
+        },
+        {
+            "name": "msys2-mingw64-release-make",
+            "displayName": "MSYS2 MinGW 64-bit Release Make",
+            "description": "Configure for building with MSYS2 MinGW 64-bit using Make in Release mode",
+            "generator": "MinGW Makefiles",
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_C_COMPILER": "C:/msys64/ucrt64/bin/gcc.exe",
+                "CMAKE_CXX_COMPILER": "C:/msys64/ucrt64/bin/g++.exe",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "YES",
+                "CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/binary/release",
+                "CMAKE_TOOLCHAIN_FILE": "C:/vcpkg/scripts/buildsystems/vcpkg.cmake",
+                "VCPKG_TARGET_TRIPLET": "x64-mingw-dynamic"
+            },
+            "hidden": true
+        }
+    ]
+}

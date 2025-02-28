@@ -13,18 +13,20 @@ set(ingredients_SOURCES
         cookbookogl.h
         scene.h
         teapotdata.h
-        glad/src/glad.c trianglemesh.cpp trianglemesh.h aabb.h
+        #glad/src/glad.c 
+        trianglemesh.cpp trianglemesh.h aabb.h
         scenerunner.h
         texture.h texture.cpp
         utils.h grid.cpp grid.h random.h
         skybox.cpp skybox.h
-        stbimpl.cpp)
+        #stbimpl.cpp
+)
 
 add_library(${target} STATIC ${ingredients_SOURCES})
 
 target_include_directories(${target} PUBLIC glad/include)
 
-target_link_libraries(${target} PUBLIC glm::glm)
+target_link_libraries(${target} PUBLIC glad::glad glm::glm)
 
 if( UNIX AND NOT APPLE )
     target_link_libraries(${target} PUBLIC ${CMAKE_DL_LIBS})

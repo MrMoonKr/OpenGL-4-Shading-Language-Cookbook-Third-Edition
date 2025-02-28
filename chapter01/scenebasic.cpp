@@ -12,6 +12,8 @@ using std::string;
 #include <iterator>
 
 #include "glutils.h"
+//#include <GL/glext.h>
+//#include <GL/glcorearb.h>
 
 SceneBasic::SceneBasic() { }
 
@@ -41,15 +43,24 @@ void SceneBasic::initScene()
     //writeShaderBinary();
 
     /////////////////// Create the VBO ////////////////////
-    float positionData[] = {
-            -0.8f, -0.8f, 0.0f,
-            0.8f, -0.8f, 0.0f,
-            0.0f,  0.8f, 0.0f };
-    float colorData[] = {
-            1.0f, 0.0f, 0.0f,
-            0.0f, 1.0f, 0.0f,
-            0.0f, 0.0f, 1.0f };
-
+    float positionData[] = 
+    { 
+        -0.5f, -0.5f, 0.0f, 
+        0.5f, -0.5f, 0.0f, 
+        0.0f, 0.5f, 0.0f 
+    };
+    float positionData1[] = 
+    { 
+        -0.8f, -0.8f, 0.0f, 
+        0.8f, -0.8f, 0.0f, 
+        0.0f, 0.8f, 0.0f 
+    };
+    float colorData[] = 
+    { 
+        1.0f, 0.0f, 0.0f, 
+        0.0f, 1.0f, 0.0f, 
+        0.0f, 0.0f, 1.0f 
+    };
 
     // Create and populate the buffer objects
     GLuint vboHandles[2];
@@ -92,10 +103,12 @@ void SceneBasic::loadSpirvShader() {
         std::vector<char> buffer(startIt, endIt);
         inStream.close();
 
-        glShaderBinary(1, &vertShader, GL_SHADER_BINARY_FORMAT_SPIR_V_ARB, buffer.data(), buffer.size());
+        //glShaderBinary(1, &vertShader, GL_SHADER_BINARY_FORMAT_SPIR_V_ARB, buffer.data(), buffer.size());
+        glShaderBinary(1, &vertShader, GL_SHADER_BINARY_FORMAT_SPIR_V, buffer.data(), buffer.size());
     }
 
-    glSpecializeShaderARB( vertShader, "main", 0, 0, 0);
+    //glSpecializeShaderARB( vertShader, "main", 0, 0, 0);
+    glSpecializeShader( vertShader, "main", 0, 0, 0);
 
     glGetShaderiv(vertShader, GL_COMPILE_STATUS, &status);
     if( GL_FALSE == status ) {
@@ -113,10 +126,12 @@ void SceneBasic::loadSpirvShader() {
         std::vector<char> buffer(startIt, endIt);
         inStream.close();
 
-        glShaderBinary(1, &fragShader, GL_SHADER_BINARY_FORMAT_SPIR_V_ARB, buffer.data(), buffer.size());
+        //glShaderBinary(1, &fragShader, GL_SHADER_BINARY_FORMAT_SPIR_V_ARB, buffer.data(), buffer.size());
+        glShaderBinary(1, &fragShader, GL_SHADER_BINARY_FORMAT_SPIR_V, buffer.data(), buffer.size());
     }
 
-    glSpecializeShaderARB( fragShader, "main", 0, 0, 0);
+    //glSpecializeShaderARB( fragShader, "main", 0, 0, 0);
+    glSpecializeShader( fragShader, "main", 0, 0, 0);
 
     glGetShaderiv(fragShader, GL_COMPILE_STATUS, &status);
     if( GL_FALSE == status ) {
@@ -362,6 +377,7 @@ void SceneBasic::render()
 
 void SceneBasic::resize(int w, int h)
 {
+    //glViewport( 0, 0, w, h );
     width = w;
     height = h;
     glViewport(0,0,w,h);

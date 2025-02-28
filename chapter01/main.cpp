@@ -10,9 +10,10 @@ static std::map< std::string, std::string > sceneData = {
 
 int main(int argc, char *argv[])
 {
-	std::string recipe = SceneRunner::parseCLArgs(argc, argv, sceneData);
+	//std::string recipe = SceneRunner::parseCLArgs(argc, argv, sceneData);
+	std::string recipe = "basic";
 
-	SceneRunner runner("Chapter 1 - " + recipe, 500, 500);
+	SceneRunner runner("Chapter 1 - " + recipe, 800, 800);
 
 	std::unique_ptr<Scene> scene;
 	if( recipe == "basic" ) {

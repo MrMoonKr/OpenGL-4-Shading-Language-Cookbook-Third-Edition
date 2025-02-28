@@ -1,5 +1,6 @@
 #include "texture.h"
-#include "stb/stb_image.h"
+//#include "stb/stb_image.h"
+#include <stb_image.h>
 #include "glutils.h"
 
 /*static*/
