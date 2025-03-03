@@ -16,6 +16,7 @@ endmacro()
 
 # 전달된 타겟의 출력폴더 이름을 빌드타입에 따라 설정
 macro( SET_OUTPUT_NAMES projname )
+    # set_target_properties( ${projname} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}" )
     set_target_properties( ${projname} PROPERTIES OUTPUT_NAME_DEBUG ${projname}_Debug )
     set_target_properties( ${projname} PROPERTIES OUTPUT_NAME_RELEASE ${projname}_Release )
     set_target_properties( ${projname} PROPERTIES OUTPUT_NAME_RELWITHDEBINFO ${projname}_RelWithDebInfo )
