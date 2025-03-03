@@ -5,7 +5,8 @@
 #include "cookbookogl.h"
 #include "drawable.h"
 
-class TriangleMesh : public Drawable {
+class TriangleMesh : public Drawable 
+{
 
 protected:
 
@@ -34,4 +35,5 @@ public:
     GLuint getNormalBuffer() { return buffers[2]; }
     GLuint getTcBuffer() { if( buffers.size() > 3) return buffers[3]; else return 0; }
     GLuint getNumVerts() { return nVerts; }
+    
 };

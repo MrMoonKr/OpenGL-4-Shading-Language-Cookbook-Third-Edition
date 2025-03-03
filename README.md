@@ -75,7 +75,7 @@ The code has been tested with OpenGL 4.3 on Windows/Linux and OpenGL 4.1 on MacO
 [GLM]: http://glm.g-truc.net
 [GLFW]:  http://glfw.org
 [ghcookbook]:  https://github.com/PacktPublishing/OpenGL-4-Shading-Language-Cookbook-Third-Edition
-[cookbook]: http://www.packtpub.com/
+[cookbook]: https://www.packtpub.com/en-us/product/opengl-4-shading-language-cookbook-9781789340662
 [GLLoadGen]:  https://bitbucket.org/alfonse/glloadgen/wiki/Home
 [CMake]: http://www.cmake.org/
 [GLAD]: https://github.com/Dav1dde/glad

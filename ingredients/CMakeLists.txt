@@ -1,35 +1,48 @@
-set(target ingredients)
+# Variables
 
-set(ingredients_SOURCES
-        teapotpatch.cpp
-        teapot.cpp
-        torus.cpp
-        glutils.cpp
-        objmesh.cpp
-        glslprogram.cpp
-        cube.cpp
-        plane.cpp
-        sphere.cpp
+set( target ingredients )
+
+set( ingredients_SOURCES
+        aabb.h
         cookbookogl.h
+        cube.cpp cube.h
+        # drawables.h
+        glslprogram.cpp glslprogram.h
+        glutils.cpp glutils.h
+        grid.cpp grid.h 
+        objmesh.cpp objmesh.h
+        plane.cpp plane.h
+        random.h
         scene.h
-        teapotdata.h
-        #glad/src/glad.c 
-        trianglemesh.cpp trianglemesh.h aabb.h
         scenerunner.h
-        texture.h texture.cpp
-        utils.h grid.cpp grid.h random.h
         skybox.cpp skybox.h
+        sphere.cpp sphere.h
+        teapot.cpp teapot.h
+        teapotdata.h
+        teapotpatch.cpp teapotpatch.h
+        texture.cpp texture.h
+        torus.cpp torus.h
+        trianglemesh.cpp trianglemesh.h
+        utils.h 
+        #glad/src/glad.c 
         #stbimpl.cpp
 )
 
-add_library(${target} STATIC ${ingredients_SOURCES})
+# Target
 
-target_include_directories(${target} PUBLIC glad/include)
+add_library( ${target} STATIC 
+    ${ingredients_SOURCES}
+)
 
-target_link_libraries(${target} PUBLIC glad::glad glm::glm)
+target_include_directories( ${target} PUBLIC 
+    glad/include
+)
+
+target_link_libraries( ${target} PUBLIC 
+    glad::glad glm::glm
+)
 
 if( UNIX AND NOT APPLE )
-    target_link_libraries(${target} PUBLIC ${CMAKE_DL_LIBS})
+    target_link_libraries( ${target} PUBLIC ${CMAKE_DL_LIBS} )
 endif()
-
 

@@ -6,7 +6,8 @@
 #include <limits>
 
 // Axis-aligned bounding box
-class Aabb {
+class Aabb 
+{
 
 public:
     glm::vec3 min, max;
