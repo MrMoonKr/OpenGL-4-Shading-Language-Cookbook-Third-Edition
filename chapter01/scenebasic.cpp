@@ -45,19 +45,21 @@ void SceneBasic::initScene()
     // writeShaderBinary();
 
     /////////////////// Create the VBO ////////////////////
-    float positionData[] = { -0.5f, -0.5f, 0.0f, 0.5f, -0.5f, 0.0f, 0.0f, 0.5f, 0.0f };
-    float positionData1[] = { -0.8f, -0.8f, 0.0f, 0.8f, -0.8f, 0.0f, 0.0f, 0.8f, 0.0f };
-    float colorData[] = { 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f };
+    float positionData[]    = { -0.5f, -0.5f, 0.0f,  0.5f, -0.5f, 0.0f,  0.0f, 0.5f, 0.0f };
+    float positionData1[]   = { -0.8f, -0.8f, 0.0f,  0.8f, -0.8f, 0.0f,  0.0f, 0.8f, 0.0f };
+    float colorData[]       = {  1.0f,  0.0f, 0.0f,  0.0f,  1.0f, 0.0f,  0.0f, 0.0f, 1.0f };
 
     // Create and populate the buffer objects
     GLuint vboHandles[ 2 ];
     glGenBuffers( 2, vboHandles );
     GLuint positionBufferHandle = vboHandles[ 0 ];
-    GLuint colorBufferHandle = vboHandles[ 1 ];
+    GLuint colorBufferHandle    = vboHandles[ 1 ];
 
+    // Populate the position buffer
     glBindBuffer( GL_ARRAY_BUFFER, positionBufferHandle );
     glBufferData( GL_ARRAY_BUFFER, 9 * sizeof( float ), positionData, GL_STATIC_DRAW );
 
+    // Populate the color buffer
     glBindBuffer( GL_ARRAY_BUFFER, colorBufferHandle );
     glBufferData( GL_ARRAY_BUFFER, 9 * sizeof( float ), colorData, GL_STATIC_DRAW );
 
@@ -69,10 +71,11 @@ void SceneBasic::initScene()
     glEnableVertexAttribArray( 1 ); // Vertex color
 
     glBindBuffer( GL_ARRAY_BUFFER, positionBufferHandle );
-    glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 0, ( GLubyte * )NULL );
+    glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 0, ( GLubyte* )NULL );
 
     glBindBuffer( GL_ARRAY_BUFFER, colorBufferHandle );
-    glVertexAttribPointer( 1, 3, GL_FLOAT, GL_FALSE, 0, ( GLubyte * )NULL );
+    glVertexAttribPointer( 1, 3, GL_FLOAT, GL_FALSE, 0, ( GLubyte* )NULL );
+
     glBindVertexArray( 0 );
 }
 

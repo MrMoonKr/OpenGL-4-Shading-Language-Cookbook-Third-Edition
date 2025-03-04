@@ -8,10 +8,19 @@
 
 class SceneBasic : public Scene
 {
-  private:
+private:
     GLuint vaoHandle;
     GLuint programHandle;
 
+public:
+    SceneBasic();
+
+    void initScene();
+    void update( float t );
+    void render();
+    void resize( int, int );
+
+private:
     void linkMe( GLint vertShader, GLint fragShader );
     void compileShaderProgram();
     void writeShaderBinary();
@@ -21,13 +30,6 @@ class SceneBasic : public Scene
     std::string getShaderInfoLog( GLuint shader );
     std::string getProgramInfoLog( GLuint program );
 
-  public:
-    SceneBasic();
-
-    void initScene();
-    void update( float t );
-    void render();
-    void resize( int, int );
 };
 
 #endif // SCENEBASIC_H

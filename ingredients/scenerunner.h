@@ -12,6 +12,12 @@
 #include <iostream>
 #include <memory>
 
+
+/**
+ * @brief main() 함수에서 특정 씬을 실행하기 위해 사용되는 클래스.  
+ * 
+ * glfw를 초기화하고 OpenGL 컨텍스트를 생성하며, 씬을 실행하는 역할을 한다.
+ */
 class SceneRunner
 {
 private:
