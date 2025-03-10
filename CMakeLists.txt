@@ -37,6 +37,7 @@ find_package( glm REQUIRED )
 include_directories( ingredients )
 
 add_subdirectory( ingredients )
+add_subdirectory( chapter00 )
 add_subdirectory( chapter01 )
 add_subdirectory( chapter02 )
 # add_subdirectory( chapter03 )
