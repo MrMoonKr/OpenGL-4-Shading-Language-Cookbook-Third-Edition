@@ -10,7 +10,7 @@ add_executable( ${target}
 )
 
 target_link_libraries( ${target} PRIVATE
-    GLEW::GLEW
+    glad::glad
     glfw
 )
 

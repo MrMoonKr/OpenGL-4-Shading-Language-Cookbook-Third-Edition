@@ -24,8 +24,6 @@ if( UNIX )
     set( OpenGL_GL_PREFERENCE GLVND )
 endif()
 
-find_package( GLEW REQUIRED )
-# target_link_libraries( main PRIVATE GLEW::GLEW )
 find_package( glad CONFIG REQUIRED )
 # target_link_libraries( main PRIVATE glad::glad )
 find_package( glfw3 CONFIG REQUIRED )

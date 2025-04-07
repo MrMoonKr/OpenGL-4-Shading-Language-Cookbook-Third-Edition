@@ -1,6 +1,8 @@
 Example code from the [OpenGL 4 Shading Language Cookbook, 3rd Edition][cookbook]
 =========================================================
 
+<img src="https://content.packt.com/_/image/original/B11014/cover_image.jpg" alt="" height="256px" align="right">
+
 The example code from the [OpenGL 4 Shading Language Cookbook, 3rd Edition][cookbook],
 by David Wolff and published by Packt Publishing.
 

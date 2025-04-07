@@ -1,8 +1,11 @@
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
 #include <iostream>
 
-void error_callback(int error, const char* description) {
+#include <glad/glad.h>      // Library for handling the loading of OpenGL functions, must be included before GLFW
+#include <GLFW/glfw3.h>     // Library for handling window and user input
+
+
+void error_callback( int error, const char* description ) 
+{
     std::cerr << "Error: " << description << std::endl;
 }
 
@@ -32,7 +35,7 @@ int main()
 
     glfwWindowHint( GLFW_SCALE_TO_MONITOR, GL_TRUE );
 
-    GLFWwindow* window = glfwCreateWindow(800, 600, "GLEW with FetchContent", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(800, 600, "GLFW with glad using vcpkg", NULL, NULL);
     if (!window) {
         std::cerr << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
@@ -42,10 +45,16 @@ int main()
     glfwMakeContextCurrent( window );
     glfwCenterWindow( window );
     
-    // GLEW 초기화
-    if ( glewInit() != GLEW_OK )
+    // // GLEW 초기화
+    // if ( glewInit() != GLEW_OK )
+    // {
+    //     std::cerr << "Failed to initialize GLEW" << std::endl;
+    //     return -1;
+    // }
+
+    if ( 0 == gladLoadGLLoader( (GLADloadproc)glfwGetProcAddress ) )
     {
-        std::cerr << "Failed to initialize GLEW" << std::endl;
+        std::cout << "[에러] failed to initialize GLAD " << std::endl;
         return -1;
     }
 
