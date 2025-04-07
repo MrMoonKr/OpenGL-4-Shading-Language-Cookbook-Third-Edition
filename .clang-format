@@ -9,10 +9,10 @@ SpacesInSquareBrackets: 'true'
 TabWidth: '4'
 UseTab: Never
 InsertFinalNewline: true
-PointerAlignment: Right
+PointerAlignment: Left
 SortIncludes: 'false'
 KeepEmptyLinesAtTheStartOfBlocks: true
-
+IndentAccessModifiers: false
 
 
 ...
