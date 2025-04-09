@@ -5,6 +5,7 @@
 // contains new std::shuffle definition
 #include <algorithm>
 
+#include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
 

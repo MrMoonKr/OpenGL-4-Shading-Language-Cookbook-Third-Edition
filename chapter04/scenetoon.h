@@ -13,7 +13,7 @@
 
 class SceneToon : public Scene
 {
-private:
+  private:
     GLSLProgram prog;
 
     float tPrev;
@@ -23,16 +23,17 @@ private:
 
     float angle;
 
-    void setMatrices();
-    void compileAndLinkShader();
-
-public:
+  public:
     SceneToon();
 
     void initScene();
     void update( float t );
     void render();
-    void resize(int, int);
+    void resize( int, int );
+
+  private:
+    void setMatrices();
+    void compileAndLinkShader();
 };
 
 #endif // SCENETOON_H

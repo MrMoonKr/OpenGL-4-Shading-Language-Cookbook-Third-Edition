@@ -12,9 +12,10 @@ protected:
 
     GLuint nVerts;     // Number of vertices
     GLuint vao;        // The Vertex Array Object
+    
+    std::vector<GLuint> buffers; // Vertex buffers
 
-    // Vertex buffers
-    std::vector<GLuint> buffers;
+protected:
 
     virtual void initBuffers(
             std::vector<GLuint> * indices,
@@ -28,7 +29,9 @@ protected:
 
 public:
     virtual ~TriangleMesh();
+
     virtual void render() const;
+    
     GLuint getVao() const { return vao; }
     GLuint getElementBuffer() { return buffers[0]; }
     GLuint getPositionBuffer() { return buffers[1]; }

@@ -13,16 +13,11 @@
 class SceneFog : public Scene
 {
 private:
-    GLSLProgram prog;
-
-    float tPrev;
-    Plane plane;
-    Teapot teapot;
-
-    float angle;
-
-    void setMatrices();
-    void compileAndLinkShader();
+    GLSLProgram     prog;
+    float           tPrev;
+    Plane           plane;
+    Teapot          teapot;
+    float           angle;
 
 public:
     SceneFog();
@@ -31,6 +26,12 @@ public:
     void update( float t );
     void render();
     void resize(int, int);
+
+private:
+
+    void setMatrices();
+    void compileAndLinkShader();
+
 };
 
 #endif // SCENEFog_H

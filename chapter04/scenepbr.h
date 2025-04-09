@@ -8,23 +8,17 @@
 #include "teapot.h"
 #include <glm/glm.hpp>
 
-class ScenePbr : public Scene {
+class ScenePbr : public Scene
+{
 private:
     GLSLProgram prog;
 
     Plane plane;
     std::unique_ptr<ObjMesh> mesh;
-	Teapot teapot;
+    Teapot teapot;
 
-	float tPrev, lightAngle, lightRotationSpeed;
-	glm::vec4 lightPos;
-
-    void setMatrices();
-    void compileAndLinkShader();
-
-	void drawScene();
-	void drawFloor();
-	void drawSpot(const glm::vec3 & pos, float rough, int metal, const glm::vec3 & color);
+    float tPrev, lightAngle, lightRotationSpeed;
+    glm::vec4 lightPos;
 
 public:
     ScenePbr();
@@ -32,5 +26,13 @@ public:
     void initScene();
     void update( float t );
     void render();
-    void resize(int, int);
+    void resize( int, int );
+
+private:
+    void setMatrices();
+    void compileAndLinkShader();
+
+    void drawScene();
+    void drawFloor();
+    void drawSpot( const glm::vec3& pos, float rough, int metal, const glm::vec3& color );
 };

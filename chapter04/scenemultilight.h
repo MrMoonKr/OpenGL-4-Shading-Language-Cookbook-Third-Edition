@@ -13,13 +13,9 @@
 class SceneMultiLight : public Scene
 {
 private:
-    GLSLProgram prog;
-
-    Plane plane;
+    GLSLProgram             prog;
+    Plane                   plane;
     std::unique_ptr<ObjMesh> mesh;
-
-    void setMatrices();
-    void compileAndLinkShader();
 
 public:
     SceneMultiLight();
@@ -28,6 +24,11 @@ public:
     void update( float t );
     void render();
     void resize(int, int);
+
+private:
+    void setMatrices();
+    void compileAndLinkShader();
+
 };
 
 #endif // SCENEMULTILIGHT_H

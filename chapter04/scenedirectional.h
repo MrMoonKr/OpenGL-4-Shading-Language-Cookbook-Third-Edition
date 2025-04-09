@@ -13,19 +13,20 @@ class SceneDirectional : public Scene
 {
 private:
     GLSLProgram prog;
-
-    Torus torus;
-
-    void setMatrices();
-    void compileAndLinkShader();
+    Torus       torus;
 
 public:
     SceneDirectional();
-
+    
     void initScene();
     void update( float t );
     void render();
     void resize(int, int);
+    
+private:
+    void setMatrices();
+    void compileAndLinkShader();
+    
 };
 
 #endif // SCENEDIRECTIONAL_H

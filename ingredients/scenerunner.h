@@ -12,21 +12,20 @@
 #include <iostream>
 #include <memory>
 
-
 /**
- * @brief main() 함수에서 특정 씬을 실행하기 위해 사용되는 클래스.  
- * 
+ * @brief main() 함수에서 특정 씬을 실행하기 위해 사용되는 클래스.
+ *
  * glfw를 초기화하고 OpenGL 컨텍스트를 생성하며, 씬을 실행하는 역할을 한다.
  */
 class SceneRunner
 {
-private:
+  private:
     GLFWwindow* window;
     int frameBufferWidth;
     int frameBufferHeight;
     bool debug; // Set true to enable debug messages
 
-public:
+  public:
     SceneRunner( const std::string& windowTitle, int width = WIN_WIDTH, int height = WIN_HEIGHT, int samples = 0 )
         : debug( true )
     {
@@ -36,15 +35,15 @@ public:
             exit( EXIT_FAILURE );
         }
 
-        #ifdef __APPLE__
+#ifdef __APPLE__
         // Select OpenGL 4.1
         glfwWindowHint( GLFW_CONTEXT_VERSION_MAJOR, 4 );
         glfwWindowHint( GLFW_CONTEXT_VERSION_MINOR, 1 );
-        #else
+#else
         // Select OpenGL 4.6
         glfwWindowHint( GLFW_CONTEXT_VERSION_MAJOR, 4 );
         glfwWindowHint( GLFW_CONTEXT_VERSION_MINOR, 6 );
-        #endif
+#endif
 
         glfwWindowHint( GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE );
         glfwWindowHint( GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE );
@@ -87,7 +86,7 @@ public:
         // Initialization
         glClearColor( 0.3f, 0.3f, 0.3f, 1.0f );
 
-        #ifndef __APPLE__
+#ifndef __APPLE__
         if ( debug )
         {
             glDebugMessageCallback( GLUtils::debugCallback, nullptr );
@@ -95,8 +94,7 @@ public:
             glDebugMessageInsert( GL_DEBUG_SOURCE_APPLICATION, GL_DEBUG_TYPE_MARKER, 0, GL_DEBUG_SEVERITY_NOTIFICATION,
                                   -1, "Start debugging" );
         }
-        #endif
-
+#endif
     }
 
     int run( std::unique_ptr<Scene> scene )
@@ -108,17 +106,17 @@ public:
             scene->setDimensions( width, height );
             scene->resize( width, height );
         } );
-        
+
         // Enter the main loop
         mainLoop( window, std::move( scene ) );
 
-        #ifndef __APPLE__
+#ifndef __APPLE__
         if ( debug )
         {
             glDebugMessageInsert( GL_DEBUG_SOURCE_APPLICATION, GL_DEBUG_TYPE_MARKER, 1, GL_DEBUG_SEVERITY_NOTIFICATION,
                                   -1, "End debug" );
         }
-        #endif
+#endif
 
         // Close window and terminate GLFW
         glfwTerminate();
@@ -127,12 +125,14 @@ public:
         return EXIT_SUCCESS;
     }
 
-    static std::string parseCLArgs( int argc, char **argv, std::map<std::string, std::string> &sceneData )
+    static std::string parseCLArgs( int argc, char** argv, std::map<std::string, std::string>& sceneData )
     {
         if ( argc < 2 )
         {
             printHelpInfo( argv[ 0 ], sceneData );
-            exit( EXIT_FAILURE );
+            //exit( EXIT_FAILURE );
+            printf( "No recipe name provided. So just using first : %s\n", sceneData.begin()->first.c_str() );
+            return sceneData.begin()->first;
         }
 
         std::string recipeName = argv[ 1 ];
@@ -148,13 +148,13 @@ public:
     }
 
   private:
-    static void printHelpInfo( const char *exeFile, std::map<std::string, std::string> &sceneData )
+    static void printHelpInfo( const char* exeFile, std::map<std::string, std::string>& sceneData )
     {
         printf( "Usage: %s recipe-name\n\n", exeFile );
         printf( "Recipe names: \n" );
         for ( auto it : sceneData )
         {
-            printf( "  %11s : %s\n", it.first.c_str(), it.second.c_str() );
+            printf( "  %s : %s\n", it.first.c_str(), it.second.c_str() );
         }
     }
 

@@ -1,6 +1,7 @@
 set( target chapter02 )
 
-set( chapter02_SOURCES main.cpp 
+set( chapter02_SOURCES 
+    main.cpp 
     sceneseparable.cpp
     scenebasic_uniformblock.cpp
     scenebasic_attrib.cpp
@@ -11,15 +12,11 @@ add_executable( ${target}
     ${chapter02_SOURCES} 
 )
 
-target_compile_definitions( ${target} PRIVATE
-    ${DEFAULT_COMPILE_DEFINITIONS}
-    GLFW_INCLUDE_NONE
-)
-
 target_link_libraries( ${target} PRIVATE
     ingredients
+    glad::glad
     glfw
-    ${OPENGL_gl_LIBRARY}
+    glm::glm
 )
 
 file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/shader DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )

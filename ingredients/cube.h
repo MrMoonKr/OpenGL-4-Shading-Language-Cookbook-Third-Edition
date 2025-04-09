@@ -6,5 +6,5 @@
 class Cube : public TriangleMesh
 {
 public:
-    Cube(GLfloat size = 1.0f);
+    Cube( GLfloat size = 1.0f );
 };

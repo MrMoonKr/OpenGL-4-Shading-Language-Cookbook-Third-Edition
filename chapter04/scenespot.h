@@ -23,16 +23,17 @@ private:
 
     float angle;
 
-    void setMatrices();
-    void compileAndLinkShader();
-
 public:
     SceneSpot();
 
     void initScene();
     void update( float t );
     void render();
-    void resize(int, int);
+    void resize( int, int );
+
+private:
+    void setMatrices();
+    void compileAndLinkShader();
 };
 
 #endif // SCENESPOT_H

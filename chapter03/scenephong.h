@@ -7,7 +7,7 @@
 
 class ScenePhong : public Scene
 {
-private:
+  private:
     GLSLProgram prog;
 
     Torus torus;
@@ -16,11 +16,11 @@ private:
     void setMatrices();
     void compileAndLinkShader();
 
-public:
+  public:
     ScenePhong();
 
     void initScene();
     void update( float t );
     void render();
-    void resize(int, int);
+    void resize( int, int );
 };

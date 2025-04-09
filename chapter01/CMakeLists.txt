@@ -17,28 +17,15 @@ target_compile_definitions( ${target} PRIVATE
 
 target_link_libraries( ${target} PRIVATE
     ingredients
-    #GLEW::GLEW
     glad::glad
     glfw
     glm::glm
-    ${OPENGL_gl_LIBRARY}
 )
 
-include( ../cmake/CommonMacros.cmake )
-SET_OUTPUT_NAMES( ${target} )
-
-file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/shader DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
-
-if( MSVC )
-    file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/shader DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_BUILD_TYPE_INIT} )
-    # set_property( TARGET ${target} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}" )
-    # set_property( TARGET ${target} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}" )
-    # set_property( TARGET ${target} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}" )
-    # set_property( TARGET ${target} PROPERTY VS_WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}" )
-endif()
-
-# if( MSVC )
-#     file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/shader DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/${CONFIG} )
-# else()
-#     file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/shader DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
-# endif()
+# shader 폴더를 실행 폴더( Debug, Release )로 복사
+add_custom_command(
+    TARGET ${target} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_CURRENT_SOURCE_DIR}/shader $<TARGET_FILE_DIR:${target}>/shader
+    COMMENT "Copying data folder to build output directory"
+)
