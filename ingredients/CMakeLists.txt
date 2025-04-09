@@ -39,7 +39,7 @@ target_include_directories( ${target} PUBLIC
 )
 
 target_link_libraries( ${target} PUBLIC 
-    glad::glad glm::glm
+    glad::glad glm::glm imgui::imgui
 )
 
 if( UNIX AND NOT APPLE )

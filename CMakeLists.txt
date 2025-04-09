@@ -33,6 +33,8 @@ find_package( glm REQUIRED )
 # target_link_libraries( main PRIVATE glm::glm-header-only )
 find_package( Stb REQUIRED )
 # target_include_directories( main PRIVATE ${Stb_INCLUDE_DIR} )
+find_package( imgui CONFIG REQUIRED )
+# target_link_libraries( main PRIVATE imgui::imgui )
 
 include_directories( ingredients )
 

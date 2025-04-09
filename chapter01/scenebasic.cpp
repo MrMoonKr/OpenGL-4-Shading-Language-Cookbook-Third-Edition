@@ -15,6 +15,8 @@ using std::string;
 // #include <GL/glext.h>
 // #include <GL/glcorearb.h>
 
+#include <imgui.h>
+
 SceneBasic::SceneBasic()
 {
 }
@@ -77,6 +79,9 @@ void SceneBasic::initScene()
     glVertexAttribPointer( 1, 3, GL_FLOAT, GL_FALSE, 0, ( GLubyte* )NULL );
 
     glBindVertexArray( 0 );
+
+    ImGuiIO& io = ImGui::GetIO();
+    auto defaultFont = io.Fonts->AddFontFromFileTTF( "fonts/D2Coding-Ver1.3.2-20180524.ttf", 24.0f, NULL, io.Fonts->GetGlyphRangesKorean() );
 }
 
 void SceneBasic::loadSpirvShader()
@@ -387,6 +392,10 @@ void SceneBasic::render()
     glBindVertexArray( vaoHandle );
     glDrawArrays( GL_TRIANGLES, 0, 3 );
     glBindVertexArray( 0 );
+
+    ImGui::Begin( u8"메인메뉴" );
+    ImGui::Text( "Hello, world!" );
+    ImGui::End();
 }
 
 void SceneBasic::resize( int w, int h )

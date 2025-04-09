@@ -1,6 +1,14 @@
 #include "cookbookogl.h"
 #include "scene.h"
+
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
+
+#include <imgui.h>
+#include <imgui_impl_glfw.h>
+#include <imgui_impl_opengl3.h>
+#include <imgui_freetype.h>
+
 #include "glutils.h"
 
 #define WIN_WIDTH 800
@@ -19,13 +27,13 @@
  */
 class SceneRunner
 {
-  private:
-    GLFWwindow* window;
-    int frameBufferWidth;
-    int frameBufferHeight;
-    bool debug; // Set true to enable debug messages
+private:
+    GLFWwindow*     window;
+    int             frameBufferWidth;
+    int             frameBufferHeight;
+    bool            debug; // Set true to enable debug messages
 
-  public:
+public:
     SceneRunner( const std::string& windowTitle, int width = WIN_WIDTH, int height = WIN_HEIGHT, int samples = 0 )
         : debug( true )
     {
@@ -83,6 +91,14 @@ class SceneRunner
 
         GLUtils::dumpGLInfo();
 
+        IMGUI_CHECKVERSION();
+        ImGui::CreateContext();
+        // ImGuiIO& io = ImGui::GetIO();
+        // io.Fonts->AddFontDefault();
+        ImGui::StyleColorsDark();
+        ImGui_ImplGlfw_InitForOpenGL( window, true );
+        ImGui_ImplOpenGL3_Init( "#version 410" );
+        
         // Initialization
         glClearColor( 0.3f, 0.3f, 0.3f, 1.0f );
 
@@ -168,8 +184,15 @@ class SceneRunner
         {
             GLUtils::checkForOpenGLError( __FILE__, __LINE__ );
 
+            ImGui_ImplOpenGL3_NewFrame();
+            ImGui_ImplGlfw_NewFrame();
+            ImGui::NewFrame();
+
             scene->update( float( glfwGetTime() ) );
             scene->render();
+
+            ImGui::Render();
+            ImGui_ImplOpenGL3_RenderDrawData( ImGui::GetDrawData() );
 
             glfwSwapBuffers( window );
 

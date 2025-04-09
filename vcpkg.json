@@ -8,6 +8,14 @@
     },
     "glfw3",
     "glm",
-    "stb"
+    "stb",
+    {
+      "name": "imgui",
+      "features": [
+        "glfw-binding",
+        "opengl3-binding",
+        "freetype"
+      ]
+    }
   ]
 }

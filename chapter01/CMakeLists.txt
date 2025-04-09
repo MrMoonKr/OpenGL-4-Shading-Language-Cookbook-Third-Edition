@@ -29,3 +29,10 @@ add_custom_command(
         ${CMAKE_CURRENT_SOURCE_DIR}/shader $<TARGET_FILE_DIR:${target}>/shader
     COMMENT "Copying data folder to build output directory"
 )
+
+add_custom_command(
+    TARGET ${target} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/fonts $<TARGET_FILE_DIR:${target}>/fonts
+    COMMENT "Copying fonts folder to build output directory"
+)
