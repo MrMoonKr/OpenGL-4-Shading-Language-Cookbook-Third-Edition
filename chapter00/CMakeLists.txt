@@ -14,7 +14,3 @@ target_link_libraries( ${target} PRIVATE
     glfw
 )
 
-include( ../cmake/CommonMacros.cmake )
-SET_OUTPUT_NAMES( ${target} )
-
-

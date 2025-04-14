@@ -34,12 +34,11 @@ add_library( ${target} STATIC
     ${ingredients_SOURCES}
 )
 
-target_include_directories( ${target} PUBLIC 
-    glad/include
-)
-
 target_link_libraries( ${target} PUBLIC 
-    glad::glad glm::glm imgui::imgui
+    glad::glad 
+    glm::glm
+    glfw
+    imgui::imgui
 )
 
 if( UNIX AND NOT APPLE )

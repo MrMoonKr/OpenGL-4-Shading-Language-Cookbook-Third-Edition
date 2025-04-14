@@ -2,7 +2,8 @@
 set( target chapter01 )
 
 set( chapter01_SOURCES
-    scenebasic.cpp
+    scenebasic.cpp scenebasic.h
+    scenemenu.cpp scenemenu.h
     main.cpp
 )
 

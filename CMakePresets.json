@@ -7,7 +7,7 @@
     },
     "configurePresets": [
         {
-            "name": "Visual-Studio-2022-Debug-make",
+            "name": "msvc-x64-debug-make",
             "displayName": "Visual Studio 2022 64-bit Debug Make",
             "description": "Configure for building with Visual Studio 64-bit using cl.exe",
             "generator": "Visual Studio 17 2022",
@@ -17,10 +17,16 @@
                 "CMAKE_CXX_COMPILER": "cl.exe",
                 "CMAKE_EXPORT_COMPILE_COMMANDS": "YES",
                 "CMAKE_TOOLCHAIN_FILE": "C:/vcpkg/scripts/buildsystems/vcpkg.cmake"
-            }
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            },
+            "hidden": false
         },
         {
-            "name": "Visual-Studio-2022-release-make",
+            "name": "msvc-x64-release-make",
             "displayName": "Visual Studio 2022 64-bit Release Make",
             "description": "Configure for building with Visual Studio 64-bit using cl.exe",
             "generator": "Visual Studio 17 2022",
@@ -29,8 +35,12 @@
                 "CMAKE_C_COMPILER": "cl.exe",
                 "CMAKE_CXX_COMPILER": "cl.exe",
                 "CMAKE_EXPORT_COMPILE_COMMANDS": "YES",
-                "CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/bin/msvc",
                 "CMAKE_TOOLCHAIN_FILE": "C:/vcpkg/scripts/buildsystems/vcpkg.cmake"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
             },
             "hidden": true
         },

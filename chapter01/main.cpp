@@ -1,6 +1,7 @@
 #include "scene.h"
 #include "scenerunner.h"
 #include "scenebasic.h"
+#include "scenemenu.h"
 
 #include <memory>
 
@@ -18,7 +19,8 @@ int main( int argc, char* argv[] )
     std::unique_ptr<Scene> scene;
     if ( recipe == "basic" )
     {
-        scene = std::unique_ptr<Scene>( new SceneBasic() );
+        //scene = std::unique_ptr<Scene>( new SceneBasic() );
+        scene = std::unique_ptr<Scene>( new SceneMenu() );
     }
 
     return runner.run( std::move( scene ) );
