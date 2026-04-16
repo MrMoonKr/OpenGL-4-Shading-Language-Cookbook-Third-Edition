@@ -8,14 +8,15 @@
     },
     "glfw3",
     "glm",
-    "stb",
     {
       "name": "imgui",
       "features": [
+        "freetype",
         "glfw-binding",
-        "opengl3-binding",
-        "freetype"
+        "opengl3-binding"
       ]
-    }
+    },
+    "stb",
+    "dxsdk-d3dx"
   ]
 }

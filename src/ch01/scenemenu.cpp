@@ -1,0 +1,455 @@
+#include "scenemenu.h"
+
+#include <cstdio>
+#include <cstdlib>
+
+#include <iostream>
+#include <fstream>
+#include <filesystem>
+#include <sstream>
+#include <string>
+using std::string;
+#include <vector>
+#include <iterator>
+
+#include "glutils.h"
+// #include <GL/glext.h>
+// #include <GL/glcorearb.h>
+
+#include <imgui.h>
+
+namespace
+{
+std::filesystem::path resolveCh01Path( const std::filesystem::path& relativePath )
+{
+    const std::filesystem::path directPath = relativePath;
+    if ( std::filesystem::exists( directPath ) )
+    {
+        return directPath;
+    }
+
+    const std::filesystem::path sourceTreePath = std::filesystem::path( "src" ) / "ch01" / relativePath;
+    if ( std::filesystem::exists( sourceTreePath ) )
+    {
+        return sourceTreePath;
+    }
+
+    return directPath;
+}
+} // namespace
+
+SceneMenu::SceneMenu()
+{
+}
+
+void SceneMenu::initScene()
+{
+    // **************************************************************************************
+    // Choose one of the following options for the shader program.
+    //  1)  Compile the shader program normally
+    //  2)  Load a binary (pre-compiled) shader program.  (file: "shader/program.bin")
+    //  3)  Load a SPIR-V shader program. (files: "shader/vert.spv" and "shader/frag.spv")
+    //
+    // Optionally, you may attempt to write out the shader program binary using the function
+    // writeShaderBinary().
+    // **************************************************************************************
+
+    // (1) Use this to load and compile the shader program.
+    compileShaderProgram();
+
+    // (2) Use this to load a binary shader.  Use the format provided when the binary was written.
+    // int shaderFormat = 36385;
+    // loadShaderBinary(shaderFormat);
+
+    // (3) Load a SPIR-V shader
+    // loadSpirvShader();
+
+    // Optional:  use this to write the shader binary out to a file.
+    // writeShaderBinary();
+
+    /////////////////// Create the VBO ////////////////////
+    float positionData[]    = { -0.5f, -0.5f, 0.0f,  0.5f, -0.5f, 0.0f,  0.0f, 0.5f, 0.0f };
+    float positionData1[]   = { -0.8f, -0.8f, 0.0f,  0.8f, -0.8f, 0.0f,  0.0f, 0.8f, 0.0f };
+    float colorData[]       = {  1.0f,  0.0f, 0.0f,  0.0f,  1.0f, 0.0f,  0.0f, 0.0f, 1.0f };
+
+    // Create and populate the buffer objects
+    GLuint vboHandles[ 2 ];
+    glGenBuffers( 2, vboHandles );
+    GLuint positionBufferHandle = vboHandles[ 0 ];
+    GLuint colorBufferHandle    = vboHandles[ 1 ];
+
+    // Populate the position buffer
+    glBindBuffer( GL_ARRAY_BUFFER, positionBufferHandle );
+    glBufferData( GL_ARRAY_BUFFER, 9 * sizeof( float ), positionData, GL_STATIC_DRAW );
+
+    // Populate the color buffer
+    glBindBuffer( GL_ARRAY_BUFFER, colorBufferHandle );
+    glBufferData( GL_ARRAY_BUFFER, 9 * sizeof( float ), colorData, GL_STATIC_DRAW );
+
+    // Create and set-up the vertex array object
+    glGenVertexArrays( 1, &vaoHandle );
+    glBindVertexArray( vaoHandle );
+
+    glEnableVertexAttribArray( 0 ); // Vertex position
+    glEnableVertexAttribArray( 1 ); // Vertex color
+
+    glBindBuffer( GL_ARRAY_BUFFER, positionBufferHandle );
+    glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 0, ( GLubyte* )NULL );
+
+    glBindBuffer( GL_ARRAY_BUFFER, colorBufferHandle );
+    glVertexAttribPointer( 1, 3, GL_FLOAT, GL_FALSE, 0, ( GLubyte* )NULL );
+
+    glBindVertexArray( 0 );
+
+    ImGuiIO& io = ImGui::GetIO();
+    const std::string fontPath = resolveCh01Path( "fonts/D2Coding-Ver1.3.2-20180524.ttf" ).string();
+    auto defaultFont = io.Fonts->AddFontFromFileTTF( fontPath.c_str(), 24.0f, NULL, io.Fonts->GetGlyphRangesKorean() );
+}
+
+void SceneMenu::loadSpirvShader()
+{
+
+    std::cout << "Loading SPIR-V shaders." << std::endl;
+
+    GLint status;
+    GLuint vertShader = glCreateShader( GL_VERTEX_SHADER );
+
+    {
+        const std::filesystem::path vertPath = resolveCh01Path( "shader/vert.spv" );
+        std::cout << "Loading SPIR-V binary: " << vertPath.string() << std::endl;
+        std::ifstream inStream( vertPath, std::ios::binary );
+        std::istreambuf_iterator<char> startIt( inStream ), endIt;
+        std::vector<char> buffer( startIt, endIt );
+        inStream.close();
+
+        // glShaderBinary(1, &vertShader, GL_SHADER_BINARY_FORMAT_SPIR_V_ARB, buffer.data(), buffer.size());
+        glShaderBinary( 1, &vertShader, GL_SHADER_BINARY_FORMAT_SPIR_V, buffer.data(), buffer.size() );
+    }
+
+    // glSpecializeShaderARB( vertShader, "main", 0, 0, 0);
+    glSpecializeShader( vertShader, "main", 0, 0, 0 );
+
+    glGetShaderiv( vertShader, GL_COMPILE_STATUS, &status );
+    if ( GL_FALSE == status )
+    {
+        std::cerr << "Failed to load vertex shader (SPIR-V)" << std::endl;
+        std::cerr << getShaderInfoLog( vertShader ) << std::endl;
+        exit( -1 );
+    }
+
+    GLuint fragShader = glCreateShader( GL_FRAGMENT_SHADER );
+
+    {
+        const std::filesystem::path fragPath = resolveCh01Path( "shader/frag.spv" );
+        std::cout << "Loading SPIR-V binary: " << fragPath.string() << std::endl;
+        std::ifstream inStream( fragPath, std::ios::binary );
+        std::istreambuf_iterator<char> startIt( inStream ), endIt;
+        std::vector<char> buffer( startIt, endIt );
+        inStream.close();
+
+        // glShaderBinary(1, &fragShader, GL_SHADER_BINARY_FORMAT_SPIR_V_ARB, buffer.data(), buffer.size());
+        glShaderBinary( 1, &fragShader, GL_SHADER_BINARY_FORMAT_SPIR_V, buffer.data(), buffer.size() );
+    }
+
+    // glSpecializeShaderARB( fragShader, "main", 0, 0, 0);
+    glSpecializeShader( fragShader, "main", 0, 0, 0 );
+
+    glGetShaderiv( fragShader, GL_COMPILE_STATUS, &status );
+    if ( GL_FALSE == status )
+    {
+        std::cerr << "Failed to load fragment shader (SPIR-V)" << std::endl;
+        std::cerr << getShaderInfoLog( fragShader ) << std::endl;
+        exit( -1 );
+    }
+
+    // Create the program object
+    programHandle = glCreateProgram();
+    if ( 0 == programHandle )
+    {
+        std::cerr << "Error creating program object." << std::endl;
+        exit( 1 );
+    }
+
+    glAttachShader( programHandle, vertShader );
+    glAttachShader( programHandle, fragShader );
+    glLinkProgram( programHandle );
+
+    glGetProgramiv( programHandle, GL_LINK_STATUS, &status );
+    if ( GL_FALSE == status )
+    {
+        std::cerr << "Failed to link SPIR-V program" << std::endl;
+        std::cerr << getProgramInfoLog( programHandle ) << std::endl;
+        exit( EXIT_FAILURE );
+    }
+
+    glUseProgram( programHandle );
+}
+
+void SceneMenu::compileShaderProgram()
+{
+    std::cout << "Compiling shader program" << std::endl;
+
+    //////////////////////////////////////////////////////
+    /////////// Vertex shader //////////////////////////
+    //////////////////////////////////////////////////////
+
+    // Load contents of file
+    const std::filesystem::path vertPath = resolveCh01Path( "shader/basic.vert.glsl" );
+    std::ifstream inFile( vertPath );
+    if ( !inFile )
+    {
+        fprintf( stderr, "Error opening file: %s\n", vertPath.string().c_str() );
+        exit( 1 );
+    }
+
+    std::stringstream code;
+    code << inFile.rdbuf();
+    inFile.close();
+    string codeStr( code.str() );
+
+    // Create the shader object
+    GLuint vertShader = glCreateShader( GL_VERTEX_SHADER );
+    if ( 0 == vertShader )
+    {
+        std::cerr << "Error creating vertex shader." << std::endl;
+        exit( EXIT_FAILURE );
+    }
+
+    // Load the source code into the shader object
+    const GLchar *codeArray[] = { codeStr.c_str() };
+    glShaderSource( vertShader, 1, codeArray, NULL );
+
+    // Compile the shader
+    glCompileShader( vertShader );
+
+    // Check compilation status
+    GLint result;
+    glGetShaderiv( vertShader, GL_COMPILE_STATUS, &result );
+    if ( GL_FALSE == result )
+    {
+        std::cerr << "Vertex shader compilation failed!" << std::endl;
+        std::cerr << getShaderInfoLog( vertShader ) << std::endl;
+        exit( EXIT_FAILURE );
+    }
+
+    //////////////////////////////////////////////////////
+    /////////// Fragment shader //////////////////////////
+    //////////////////////////////////////////////////////
+
+    // Load contents of file into shaderCode here
+    const std::filesystem::path fragPath = resolveCh01Path( "shader/basic.frag.glsl" );
+    std::ifstream fragFile( fragPath );
+    if ( !fragFile )
+    {
+        fprintf( stderr, "Error opening file: %s\n", fragPath.string().c_str() );
+        exit( 1 );
+    }
+
+    std::stringstream fragCode;
+    fragCode << fragFile.rdbuf();
+    fragFile.close();
+    codeStr = fragCode.str();
+
+    // Create the shader object
+    GLuint fragShader = glCreateShader( GL_FRAGMENT_SHADER );
+    if ( 0 == fragShader )
+    {
+        fprintf( stderr, "Error creating fragment shader.\n" );
+        exit( 1 );
+    }
+
+    // Load the source code into the shader object
+    codeArray[ 0 ] = codeStr.c_str();
+    glShaderSource( fragShader, 1, codeArray, NULL );
+
+    // Compile the shader
+    glCompileShader( fragShader );
+
+    // Check compilation status
+    glGetShaderiv( fragShader, GL_COMPILE_STATUS, &result );
+    if ( GL_FALSE == result )
+    {
+        std::cerr << "Fragment shader compilation failed!" << std::endl;
+        std::cerr << getShaderInfoLog( vertShader ) << std::endl;
+        exit( EXIT_FAILURE );
+    }
+
+    linkMe( vertShader, fragShader );
+}
+
+void SceneMenu::loadShaderBinary( GLint format )
+{
+    const std::filesystem::path programBinaryPath = resolveCh01Path( "shader/program.bin" );
+    std::cout << "Loading shader binary: " << programBinaryPath.string() << " (format = " << format << ")" << std::endl;
+
+    // Create the program object
+    programHandle = glCreateProgram();
+    if ( 0 == programHandle )
+    {
+        std::cerr << "Error creating program object." << std::endl;
+        exit( EXIT_FAILURE );
+    }
+
+    std::ifstream inStream( programBinaryPath, std::ios::binary );
+    std::istreambuf_iterator<char> startIt( inStream ), endIt;
+    std::vector<char> buffer( startIt, endIt );
+    inStream.close();
+    glProgramBinary( programHandle, format, buffer.data(), buffer.size() );
+
+    // Check for successful linking
+    GLint status;
+    glGetProgramiv( programHandle, GL_LINK_STATUS, &status );
+    if ( GL_FALSE == status )
+    {
+        std::cerr << "Failed to load binary shader program!" << std::endl;
+        std::cerr << getProgramInfoLog( programHandle ) << std::endl;
+        exit( EXIT_FAILURE );
+    }
+    glUseProgram( programHandle );
+}
+
+void SceneMenu::linkMe( GLint vertShader, GLint fragShader )
+{
+    // Create the program object
+    programHandle = glCreateProgram();
+    if ( 0 == programHandle )
+    {
+        std::cerr << "Error creating program object." << std::endl;
+        exit( EXIT_FAILURE );
+    }
+
+    // Bind index 0 to the shader input variable "VertexPosition"
+    // glBindAttribLocation(programHandle, 0, "VertexPosition");
+    // Bind index 1 to the shader input variable "VertexColor"
+    // glBindAttribLocation(programHandle, 1, "VertexColor");
+
+    // Attach the shaders to the program object
+    glAttachShader( programHandle, vertShader );
+    glAttachShader( programHandle, fragShader );
+
+    // Link the program
+    glLinkProgram( programHandle );
+
+    // Check for successful linking
+    GLint status;
+    glGetProgramiv( programHandle, GL_LINK_STATUS, &status );
+    if ( GL_FALSE == status )
+    {
+        std::cerr << "Failed to link shader program!" << std::endl;
+        std::cerr << getProgramInfoLog( programHandle ) << std::endl;
+        exit( EXIT_FAILURE );
+    }
+
+    // Clean up shader objects
+    glDetachShader( programHandle, vertShader );
+    glDetachShader( programHandle, fragShader );
+    glDeleteShader( vertShader );
+    glDeleteShader( fragShader );
+
+    glUseProgram( programHandle );
+}
+
+void SceneMenu::writeShaderBinary()
+{
+    GLint formats;
+    glGetIntegerv( GL_NUM_PROGRAM_BINARY_FORMATS, &formats );
+    std::cout << "Number of binary formats supported by this driver = " << formats << std::endl;
+
+    if ( formats > 0 )
+    {
+        GLint length;
+        glGetProgramiv( programHandle, GL_PROGRAM_BINARY_LENGTH, &length );
+        std::cout << "Program binary length = " << length << std::endl;
+
+        std::vector<GLubyte> buffer( length );
+        GLenum format;
+        glGetProgramBinary( programHandle, length, NULL, &format, buffer.data() );
+        std::string fName( "shader/program.bin" );
+
+        std::cout << "Writing to " << fName << ", binary format = " << format << std::endl;
+        std::ofstream out( fName.c_str(), std::ios::binary );
+        out.write( reinterpret_cast<char *>( buffer.data() ), length );
+        out.close();
+    }
+    else
+    {
+        std::cout << "No binary formats supported by this driver. Unable to write shader binary." << std::endl;
+    }
+}
+
+std::string SceneMenu::getShaderInfoLog( GLuint shader )
+{
+    GLint logLen;
+    glGetShaderiv( shader, GL_INFO_LOG_LENGTH, &logLen );
+
+    std::string log;
+    if ( logLen > 0 )
+    {
+        log.resize( logLen, ' ' );
+        GLsizei written;
+        glGetShaderInfoLog( shader, logLen, &written, &log[ 0 ] );
+    }
+
+    return log;
+}
+
+std::string SceneMenu::getProgramInfoLog( GLuint program )
+{
+    GLint logLen;
+    glGetProgramiv( program, GL_INFO_LOG_LENGTH, &logLen );
+
+    std::string log;
+    if ( logLen > 0 )
+    {
+        log.resize( logLen, ' ' );
+        GLsizei written;
+        glGetProgramInfoLog( program, logLen, &written, &log[ 0 ] );
+    }
+    return log;
+}
+
+void SceneMenu::update( float t )
+{
+}
+
+void SceneMenu::render()
+{
+    glClear( GL_COLOR_BUFFER_BIT );
+
+    glBindVertexArray( vaoHandle );
+    glDrawArrays( GL_TRIANGLES, 0, 3 );
+    glBindVertexArray( 0 );
+
+    //ImGui::SetNextWindowPos( ImVec2( 0, 0 ), ImGuiCond_Always );
+    ImGui::SetNextWindowSize( ImVec2( 320, 240 ), ImGuiCond_Always );
+    ImGui::Begin( "메인메뉴" );
+
+    ImVec2 fullSize = ImGui::GetContentRegionAvail();
+    float buttonHeight = fullSize.y / 3.5f;
+
+    if ( ImGui::Button( "메뉴 1", ImVec2( fullSize.x, buttonHeight ) ) )
+    {
+        std::cout << "메뉴 1" << std::endl;
+    }
+
+    ImGui::BeginDisabled( true );
+    if ( ImGui::Button( "메뉴 2" , ImVec2( fullSize.x, buttonHeight ) ) )
+    {
+        std::cout << "메뉴 2" << std::endl;
+    }
+    if ( ImGui::Button( "메뉴 3" , ImVec2( fullSize.x, buttonHeight ) ) )
+    {
+        std::cout << "메뉴 3" << std::endl;
+    }
+    ImGui::EndDisabled();
+
+    ImGui::End();
+}
+
+void SceneMenu::resize( int w, int h )
+{
+    // glViewport( 0, 0, w, h );
+    width = w;
+    height = h;
+    glViewport( 0, 0, w, h );
+}

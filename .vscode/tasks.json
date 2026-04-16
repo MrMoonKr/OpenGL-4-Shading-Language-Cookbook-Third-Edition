@@ -1,0 +1,120 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "cmake: configure debug",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--preset",
+        "vs2022-debug"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "cmake: build debug ch00_glad",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "--preset",
+        "build-debug",
+        "--target",
+        "ch00_glad"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "dependsOn": "cmake: configure debug",
+      "problemMatcher": "$msCompile",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "cmake: build debug ch00_glew",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "--preset",
+        "build-debug",
+        "--target",
+        "ch00_glew"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "dependsOn": "cmake: configure debug",
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "cmake: build debug ch00_app",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "--preset",
+        "build-debug",
+        "--target",
+        "ch00_app"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "dependsOn": "cmake: configure debug",
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "cmake: build debug ch01",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "--preset",
+        "build-debug",
+        "--target",
+        "ch01"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "dependsOn": "cmake: configure debug",
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "cmake: configure release",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--preset",
+        "vs2022-release"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "cmake: build release ch01",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "--preset",
+        "build-release",
+        "--target",
+        "ch01"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "dependsOn": "cmake: configure release",
+      "problemMatcher": "$msCompile"
+    }
+  ]
+}

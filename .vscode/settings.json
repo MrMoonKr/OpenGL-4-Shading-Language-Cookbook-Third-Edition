@@ -1,0 +1,18 @@
+{
+  "cmake.useCMakePresets": "always",
+  "cmake.configureOnOpen": true,
+  "cmake.sourceDirectory": "${workspaceFolder}",
+  "cmake.defaultConfigurePreset": "vs2022-debug",
+  "cmake.defaultBuildPreset": "build-debug",
+  "cmake.defaultVariants": {
+    "buildType": {
+      "default": "debug"
+    }
+  },
+  "C_Cpp.intelliSenseEngine": "default",
+  "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+  "C_Cpp.hover.markdown": true ,
+  "cmake.preferredGenerators": [
+    "Visual Studio 17 2022"
+  ]
+}
