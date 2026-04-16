@@ -82,6 +82,13 @@ void AppWindow::Init( const AppConfig& config )
 
     std::cout << "OpenGL Vendor : " << glGetString( GL_VENDOR ) << std::endl;
     std::cout << "OpenGL Version : " << glGetString( GL_VERSION ) << std::endl;
+    std::cout << "OpenGL Renderer : " << glGetString( GL_RENDERER ) << std::endl;
+
+    std::cout << "GLSL Version ( string ) : " << glGetString( GL_SHADING_LANGUAGE_VERSION ) << std::endl;
+    GLint major , minor;
+    glGetIntegerv( GL_MAJOR_VERSION, &major );
+    glGetIntegerv( GL_MINOR_VERSION, &minor );
+    std::cout << "GLSL Version ( integer ) : " << major << "."  << minor << std::endl;
 
     glfwGetWindowContentScale( m_window, &m_contentScaleX, &m_contentScaleY );
     OnWindowContentScale( m_contentScaleX, m_contentScaleY );
