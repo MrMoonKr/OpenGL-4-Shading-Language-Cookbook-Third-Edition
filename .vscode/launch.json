@@ -48,6 +48,54 @@
       "environment": [],
       "console": "integratedTerminal",
       "preLaunchTask": "cmake: build debug ch01"
+    },
+    {
+      "name": "Debug ch12",
+      "type": "cppvsdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/bin/Debug/ch12.exe",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "console": "integratedTerminal",
+      "preLaunchTask": "cmake: build debug ch12"
+    },
+    {
+      "name": "Debug ch13",
+      "type": "cppvsdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/bin/Debug/ch13.exe",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "console": "integratedTerminal",
+      "preLaunchTask": "cmake: build debug ch13"
+    },
+    {
+      "name": "Debug ch14",
+      "type": "cppvsdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/bin/Debug/ch14.exe",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "console": "integratedTerminal",
+      "preLaunchTask": "cmake: build debug ch14"
+    },
+    {
+      "name": "Debug ch15",
+      "type": "cppvsdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/bin/Debug/ch15.exe",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "console": "integratedTerminal",
+      "preLaunchTask": "cmake: build debug ch15"
     }
   ]
 }

@@ -1,38 +1,32 @@
+set( target ch13 )
 
-set( target ch01 )
-
-set( ch01_SOURCES
-    scenebasic.cpp scenebasic.h
-    scenemenu.cpp scenemenu.h
+set( ch13_sources
     main.cpp
+    chapter13_app.cpp
+    chapter13_app.h
 )
 
-add_executable( ${target} 
-    ${ch01_SOURCES} 
+add_executable( ${target}
+    ${ch13_sources}
 )
 
 target_compile_definitions( ${target} PRIVATE
-    ${DEFAULT_COMPILE_DEFINITIONS}
     GLFW_INCLUDE_NONE
 )
 
 target_link_libraries( ${target} PRIVATE
     common
-    glad::glad
-    glfw
-    glm::glm
 )
 
 if( MSVC )
     target_compile_options( ${target} PRIVATE /utf-8 )
 endif()
 
-# shader 폴더를 실행 폴더( Debug, Release )로 복사
 add_custom_command(
     TARGET ${target} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_CURRENT_SOURCE_DIR}/shader $<TARGET_FILE_DIR:${target}>/shader
-    COMMENT "Copying shader folder to runtime output"
+    COMMENT "Copying chapter 13 shaders"
 )
 
 configure_demo_runtime_assets( ${target} )

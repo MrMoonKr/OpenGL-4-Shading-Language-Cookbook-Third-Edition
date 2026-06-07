@@ -33,3 +33,6 @@ chapter??/chapter??.exe
 .vs/
 x64/
 /build
+/bin
+/deps
+/libs

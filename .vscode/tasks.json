@@ -87,6 +87,74 @@
       "problemMatcher": "$msCompile"
     },
     {
+      "label": "cmake: build debug ch12",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "--preset",
+        "build-debug",
+        "--target",
+        "ch12"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "dependsOn": "cmake: configure debug",
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "cmake: build debug ch13",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "--preset",
+        "build-debug",
+        "--target",
+        "ch13"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "dependsOn": "cmake: configure debug",
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "cmake: build debug ch14",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "--preset",
+        "build-debug",
+        "--target",
+        "ch14"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "dependsOn": "cmake: configure debug",
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "cmake: build debug ch15",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "--preset",
+        "build-debug",
+        "--target",
+        "ch15"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "dependsOn": "cmake: configure debug",
+      "problemMatcher": "$msCompile"
+    },
+    {
       "label": "cmake: configure release",
       "type": "shell",
       "command": "cmake",
@@ -109,6 +177,74 @@
         "build-release",
         "--target",
         "ch01"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "dependsOn": "cmake: configure release",
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "cmake: build release ch12",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "--preset",
+        "build-release",
+        "--target",
+        "ch12"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "dependsOn": "cmake: configure release",
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "cmake: build release ch13",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "--preset",
+        "build-release",
+        "--target",
+        "ch13"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "dependsOn": "cmake: configure release",
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "cmake: build release ch14",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "--preset",
+        "build-release",
+        "--target",
+        "ch14"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "dependsOn": "cmake: configure release",
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "cmake: build release ch15",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "--preset",
+        "build-release",
+        "--target",
+        "ch15"
       ],
       "options": {
         "cwd": "${workspaceFolder}"

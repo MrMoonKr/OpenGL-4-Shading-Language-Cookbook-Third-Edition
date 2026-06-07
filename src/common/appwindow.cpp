@@ -1,7 +1,30 @@
-#include "app.h"
+#include "appwindow.h"
 
-#include <stdexcept>
+#include <filesystem>
 #include <iostream>
+#include <stdexcept>
+
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
+namespace
+{
+void setWorkingDirectoryToExecutable()
+{
+#ifdef _WIN32
+    std::wstring modulePath( MAX_PATH, L'\0' );
+    DWORD pathLength = GetModuleFileNameW( nullptr, modulePath.data(), static_cast<DWORD>( modulePath.size() ) );
+    if ( pathLength == 0 )
+    {
+        return;
+    }
+
+    modulePath.resize( pathLength );
+    std::filesystem::current_path( std::filesystem::path( modulePath ).parent_path() );
+#endif
+}
+} // namespace
 
 AppWindow::~AppWindow()
 {
@@ -12,6 +35,8 @@ void AppWindow::Init( const AppConfig& config )
 {
     if ( m_window )
         throw std::runtime_error( "AppWindow::Init() already called" );
+
+    setWorkingDirectoryToExecutable();
 
     glfwSetErrorCallback( ErrorCallback );
 
@@ -50,10 +75,8 @@ void AppWindow::Init( const AppConfig& config )
     glfwSwapInterval( config.vsync ? 1 : 0 );
 
     glfwGetWindowSize( m_window, &m_width, &m_height );
-
     glfwSetWindowUserPointer( m_window, this );
 
-    // ===== Window callbacks =====
     glfwSetWindowPosCallback( m_window, WindowPosCallback );
     glfwSetWindowSizeCallback( m_window, WindowSizeCallback );
     glfwSetWindowCloseCallback( m_window, WindowCloseCallback );
@@ -64,7 +87,6 @@ void AppWindow::Init( const AppConfig& config )
     glfwSetFramebufferSizeCallback( m_window, FramebufferSizeCallback );
     glfwSetWindowContentScaleCallback( m_window, WindowContentScaleCallback );
 
-    // ===== Input callbacks =====
     glfwSetKeyCallback( m_window, KeyCallback );
     glfwSetCharCallback( m_window, CharCallback );
     glfwSetMouseButtonCallback( m_window, MouseButtonCallback );
@@ -73,11 +95,9 @@ void AppWindow::Init( const AppConfig& config )
     glfwSetScrollCallback( m_window, ScrollCallback );
     glfwSetDropCallback( m_window, DropCallback );
 
-    // GLEW 초기화
-    glewExperimental = GL_TRUE;
-    if ( glewInit() != GLEW_OK )
+    if ( 0 == gladLoadGL( glfwGetProcAddress ) )
     {
-        throw std::runtime_error( "glewInit() failed" );
+        throw std::runtime_error( "gladLoadGL() failed" );
     }
 
     std::cout << "OpenGL Vendor : " << glGetString( GL_VENDOR ) << std::endl;
@@ -85,10 +105,10 @@ void AppWindow::Init( const AppConfig& config )
     std::cout << "OpenGL Renderer : " << glGetString( GL_RENDERER ) << std::endl;
 
     std::cout << "GLSL Version ( string ) : " << glGetString( GL_SHADING_LANGUAGE_VERSION ) << std::endl;
-    GLint major , minor;
+    GLint major, minor;
     glGetIntegerv( GL_MAJOR_VERSION, &major );
     glGetIntegerv( GL_MINOR_VERSION, &minor );
-    std::cout << "GLSL Version ( integer ) : " << major << "."  << minor << std::endl;
+    std::cout << "GLSL Version ( integer ) : " << major << "." << minor << std::endl;
 
     glfwGetWindowContentScale( m_window, &m_contentScaleX, &m_contentScaleY );
     OnWindowContentScale( m_contentScaleX, m_contentScaleY );
@@ -149,7 +169,7 @@ AppWindow* AppWindow::GetThis( GLFWwindow* window )
     return static_cast<AppWindow*>( glfwGetWindowUserPointer( window ) );
 }
 
-void AppWindow::glfwCenterWindow( GLFWwindow* window ) 
+void AppWindow::glfwCenterWindow( GLFWwindow* window )
 {
     int windowWidth, windowHeight;
     glfwGetWindowSize( window, &windowWidth, &windowHeight );
@@ -267,5 +287,3 @@ void AppWindow::DropCallback( GLFWwindow* window, int pathCount, const char* pat
     if ( auto* self = GetThis( window ) )
         self->OnDrop( pathCount, paths );
 }
-
-

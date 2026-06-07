@@ -11,8 +11,6 @@ set( ch00_glew_SOURCES
 )
 set( ch00_app_SOURCES
     main_app.cpp
-    app.cpp
-    app.h
 )
 
 add_executable( ${TARGET1} 
@@ -44,8 +42,7 @@ target_link_libraries( ${TARGET2} PRIVATE
     glfw
 )
 target_link_libraries( ${TARGET3} PRIVATE
-    GLEW::GLEW
-    glfw
+    common
 )
 
 if( MSVC )

@@ -4,6 +4,9 @@ set( target common )
 
 set( common_src
         aabb.h
+        appwindow.cpp appwindow.h
+        demoapp.cpp demoapp.h
+        haircards.cpp haircards.h
         cookbookogl.h
         cube.cpp cube.h
         # drawables.h
@@ -11,7 +14,9 @@ set( common_src
         glutils.cpp glutils.h
         grid.cpp grid.h 
         objmesh.cpp objmesh.h
+        orbitcamera.cpp orbitcamera.h
         plane.cpp plane.h
+        procedural.cpp procedural.h
         random.h
         scene.h
         scenerunner.h
